@@ -3,8 +3,13 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Projekt_323_Quizkarten </title>
+    <!--- Font Awesome Icons ---->
+    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <!--- Google Fonts ---->
     <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;&display=swap" rel="stylesheet"/>
+    
+    <!--- Stylesheet ---->
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
@@ -12,5 +17,23 @@
       <div class="add-flashcard">
         <button id="add-flashcard"> Add Flashcard </button>
       </div>
+      
+      <!--- Display Card of Question And Anwers Here ---->
+      <div id="card-con">
+        <div class="card-list-container"></div>
+      </div>
     </div>
+
+    <!--- Input from for users to fill question and answer ---->
+  <div class="question-container hide" id="add-question-card">
+    <h2>Add Flashcard</h2>
+    <div class="wrapper">
+      <!--- Error Message ---->
+      <div class="error-con">
+        <span class="hide" id="error"> Input fields cannot be empty! </span>
+      </div>
+      <!--- Close Button ---->
+      <i class="fa-regular fa-circle-xmark"></i>
+    </div>
+  </div>
   </body>

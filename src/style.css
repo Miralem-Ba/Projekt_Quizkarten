@@ -32,3 +32,16 @@ button {
     font-weight: 200;
     border-radius: 0.5em;
 }
+#card-con{
+    border: 1px solid black;
+    margin-top: 1em;
+}
+.question-container {
+    width: 90vw;
+    max-width: 35em;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ffffff;
+}
