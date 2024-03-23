@@ -59,4 +59,9 @@ button {
     text-align: center;
     margin-bottom: 0.5em;
 }
-
+.wrapper {
+    display: grid;
+    grid-template-columns: 10fr 0fr;
+    gap:  1em;
+    margin-bottom: 1em;
+}
