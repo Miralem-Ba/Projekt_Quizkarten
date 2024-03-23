@@ -44,4 +44,19 @@ button {
     flex-direction: column;
     justify-content: center;
     background-color: #ffffff;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 2em 2em;
+    border-radius: 1.5em;
+    box-shadow: 0 1em 2em rgba(20,0,80,0.2);
 }
+.question-container h2 {
+    font-size: 2.0em;
+    color: #363d55;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
