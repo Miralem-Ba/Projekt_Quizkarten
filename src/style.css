@@ -65,3 +65,10 @@ button {
     gap:  1em;
     margin-bottom: 1em;
 }
+.error-con {
+    align-items: center;
+}
+#error {
+    color: #ff5353;
+    font-weight: 200;
+}
