@@ -84,3 +84,14 @@ button {
     cursor: pointer;
     justify-self: flex-end;
 }
+label {
+    color: #363d55;
+    font-weight: 700;
+    margin-bottom: 0.2em;
+}
+textarea {
+    width: 100%;
+    padding: 0.8em 1em;
+    border: 1px solid #d0d0d0;
+    outline: none;
+}
