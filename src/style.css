@@ -112,3 +112,6 @@ textarea:focus {
     border-radius: 0.2em;
     font-weight: 400;
 }
+.hide {
+    display: none;
+}
