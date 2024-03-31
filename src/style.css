@@ -94,4 +94,21 @@ textarea {
     padding: 0.8em 1em;
     border: 1px solid #d0d0d0;
     outline: none;
+    color: #414a67;
+    border-radius: 0.3em;
+    resize: none;
+}
+textarea:not(:last-child){
+    margin-bottom: 1.5em;
+}
+textarea:focus {
+    border-color: #363d55;
+}
+#save-btn {
+    font-size: 1.3em;
+    background-color: #587ef4;
+    color: white;
+    padding: 0.3em 0;
+    border-radius: 0.2em;
+    font-weight: 400;
 }
