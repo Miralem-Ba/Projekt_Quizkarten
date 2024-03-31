@@ -47,3 +47,55 @@ cardButton.addEventListener(
     }
   })
 );
+//Card Generate
+function viewlist() {
+  var listCard = document.getElementsByClassName("card-list-container");
+  var div = document.createElement("div");
+  div.classList.add("card");
+  //Question
+  div.innerHTML += `
+  <p class="question-div">${question.value}</p>`;
+  //Answer
+  var displayAnswer = document.createElement("p");
+  displayAnswer.classList.add("answer-div", "hide");
+  displayAnswer.innerText = answer.value;
+
+  //Link to show/hide answer
+  var link = document.createElement("a");
+  link.setAttribute("href", "#");
+  link.setAttribute("class", "show-hide-btn");
+  link.innerHTML = "Show/Hide";
+  link.addEventListener("click", () => {
+    displayAnswer.classList.toggle("hide");
+  });
+
+  div.appendChild(link);
+  div.appendChild(displayAnswer);
+
+  //Edit button
+  let buttonsCon = document.createElement("div");
+  buttonsCon.classList.add("buttons-con");
+  var editButton = document.createElement("button");
+  editButton.setAttribute("class", "edit");
+  editButton.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
+  editButton.addEventListener("click", () => {
+    editBool = true;
+    modifyElement(editButton, true);
+    addQuestionCard.classList.remove("hide");
+  });
+  buttonsCon.appendChild(editButton);
+  disableButtons(false);
+
+  //Delete Button
+  var deleteButton = document.createElement("button");
+  deleteButton.setAttribute("class", "delete");
+  deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  deleteButton.addEventListener("click", () => {
+    modifyElement(deleteButton);
+  });
+  buttonsCon.appendChild(deleteButton);
+
+  div.appendChild(buttonsCon);
+  listCard[0].appendChild(div);
+  hideQuestion();
+}

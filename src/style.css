@@ -131,12 +131,12 @@ textarea:focus {
 .question-div {
   margin-bottom: 0.5em;
   font-weight: 500;
-  color: #363d55;
+  color: #0c4812ad;
 }
 .answer-div {
   margin-top: 1em;
   font-weight: 400;
-  color: #414a67;
+  color: #0c4812ad;
 }
 .show-hide-btn {
   display: block;
@@ -151,8 +151,7 @@ textarea:focus {
   display: flex;
   justify-content: flex-end;
 }
-.edit,
-.delete {
+.edit,.delete {
   background-color: transparent;
   padding: 0.5em;
   font-size: 1.2em;
