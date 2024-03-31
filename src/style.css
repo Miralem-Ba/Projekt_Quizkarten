@@ -10,7 +10,7 @@ body {
 .container {
   width: 90vw;
   max-width: 62.5em;
-  border: 1px solid green;
+  border: 1px solid rgb(255, 255, 255);
   position: relative;
   margin: auto;
 }
@@ -26,20 +26,20 @@ button {
 }
 .add-flashcard-con button {
   font-size: 1em;
-  background-color:green;
+  background-color:#0c4812ad;
   color: #ffffff;
   padding: 0.8em 1.2em;
   font-weight: 200;
   border-radius: 0.5em;
 }
 #card-con {
-    border: 1px solid green;
+    border: 1px solid rgb(255, 255, 255);
   margin-top: 1em;
 }
 .question-container {
   width: 90vw;
   max-width: 35em;
-  border: 1px solid green;
+  border: 1px solid #0c4812ad;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,7 +85,7 @@ button {
   justify-self: flex-end;
 }
 label {
-  color: #363d55;
+  color: #0c4812ad;
   font-weight: 700;
   margin-bottom: 0.2em;
 }
@@ -94,7 +94,7 @@ textarea {
   padding: 0.8em 1em;
   border: 1px solid #d0d0d0;
   outline: none;
-  color: #414a67;
+  color: #0c4812ad;
   border-radius: 0.3em;
   resize: none;
 }
@@ -102,7 +102,7 @@ textarea:not(:last-child) {
   margin-bottom: 1.5em;
 }
 textarea:focus {
-  border-color: #363d55;
+  border-color: #0c4812ad;
 }
 #save-btn {
   font-size: 1em;
@@ -124,7 +124,9 @@ textarea:focus {
   padding: 1.2em;
   border-radius: 0.4em;
 }
-.question-div,
+.question-div{
+  text-align: justify;
+}
 .answer-div {
   text-align: justify;
 }
@@ -164,4 +166,30 @@ textarea:focus {
 }
 .hide {
   display: none;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  background-color: transparent;
+  color: #0c4812ad;
+  font-size: Big; 
+}
+@media screen and (max-width: 800px) {
+  .card-list-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8em;
+  }
+}
+@media screen and (max-width: 450px) {
+  body {
+    font-size: 14px;
+  }
+  .card-list-container {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+  }
 }

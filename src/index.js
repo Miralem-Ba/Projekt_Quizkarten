@@ -99,3 +99,22 @@ function viewlist() {
   listCard[0].appendChild(div);
   hideQuestion();
 }
+//Modify Elements
+const modifyElement = (element, edit = false) => {
+  let parentDiv = element.parentElement.parentElement;
+  let parentQuestion = parentDiv.querySelector(".question-div").innerText;
+  if (edit) {
+    let parentAns = parentDiv.querySelector(".answer-div").innerText;
+    answer.value = parentAns;
+    question.value = parentQuestion;
+    disableButtons(true);
+  }
+  parentDiv.remove();
+};
+//Disable edit and delete buttons
+const disableButtons = (value) => {
+  let editButtons = document.getElementsByClassName("edit");
+  Array.from(editButtons).forEach((element) => {
+    element.disabled = value;
+  });
+};
