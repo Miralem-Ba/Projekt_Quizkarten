@@ -7,7 +7,6 @@ const errorMessage = document.getElementById("error");
 const addQuestion = document.getElementById("add-flashcard");
 const introText = document.getElementById("intro-text");
 const closeBtn = document.getElementById("close-btn");
-
 let editBool = false;
 
 //Add question when user clicks 'Add Flashcard' button
