@@ -3,19 +3,26 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title> Projekt_323_Quizkarten </title>
+
     <!-- Font Awesome Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
     />
+
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
   </head>
+  <picture class="image">
+    <source srcset="https://www.myzitate.de/out/img/og/themen_400.jpg" media="(max-width:600px)">
+    <img src="https://www.myzitate.de/out/img/og/themen.jpg?ezimgfmt=ng%3Awebp%2Fngcb10%2Frs%3Adevice%2Frscb11-1" alt="" ezimgfmt="rs rscb11 src ng ngcb10" loading="eager" srcset="" sizes="" importance="high" fetchpriority="high" height="700" width="1600">
+    </picture>
   <body>
     <div class="container">
       <div class="add-flashcard-con">
@@ -32,14 +39,15 @@
     <div class="question-container hide" id="add-question-card">
       <h2>Add Flashcard</h2>
       <div class="wrapper">
+
         <!-- Error message -->
         <div class="error-con">
           <span class="hide" id="error">Input fields cannot be empty!</span>
         </div>
+
         <!-- Close Button -->
         <i class="fa-solid fa-xmark" id="close-btn"></i>
       </div>
-
       <label for="question">Question:</label>
       <textarea
         class="input"
@@ -63,5 +71,6 @@
     <div class="footer">
       Copyright© - Miralem Banovi
     </div>  
+
   </body>
 </html>
