@@ -4,119 +4,96 @@ const cardButton = document.getElementById("save-btn");
 const question = document.getElementById("question");
 const answer = document.getElementById("answer");
 const errorMessage = document.getElementById("error");
-const addQuestion = document.getElementById("add-flashcard");
+const addQuestionBtn = document.getElementById("add-flashcard");
 const introText = document.getElementById("intro-text");
 const closeBtn = document.getElementById("close-btn");
 let editBool = false;
+let editId = null;
 
-//Add question when user clicks 'Add Flashcard' button
-addQuestion.addEventListener("click", () => {
-  container.classList.add("hide");
+// Function to reset form and hide/show appropriate elements
+function resetForm() {
   question.value = "";
   answer.value = "";
+  errorMessage.classList.add("hide");
+  addQuestionCard.classList.add("hide");
+  container.classList.remove("hide");
+  editBool = false;
+  editId = null;
+}
+
+// Toggle Intro Text based on presence of cards
+function toggleIntroText() {
+  const flashcards = document.querySelectorAll('.card');
+  introText.style.display = flashcards.length === 0 ? 'block' : 'none';
+}
+
+// Hide Create flashcard Card and reset form
+closeBtn.addEventListener("click", () => {
+  resetForm();
+  toggleIntroText();
+});
+
+// Add question when user clicks 'Add Flashcard' button
+addQuestionBtn.addEventListener("click", () => {
   addQuestionCard.classList.remove("hide");
+  container.classList.add("hide");
   introText.style.display = 'none';
 });
 
-//Hide Create flashcard Card
-closeBtn.addEventListener(
-  "click",
-  (hideQuestion = () => {
-    container.classList.remove("hide");
-    addQuestionCard.classList.add("hide");
-    if (editBool) {
-      editBool = false;
-      submitQuestion();
-    }
-  })
-);
-
-//Submit Question
-cardButton.addEventListener(
-  "click",
-  (submitQuestion = () => {
-    editBool = false;
-    tempQuestion = question.value.trim();
-    tempAnswer = answer.value.trim();
-    if (!tempQuestion || !tempAnswer) {
-      errorMessage.classList.remove("hide");
-    } else {
-      container.classList.remove("hide");
-      errorMessage.classList.add("hide");
-      viewlist();
-      question.value = "";
-      answer.value = "";
-    }
-  })
-);
-//Card Generate
-function viewlist() {
-  var listCard = document.getElementsByClassName("card-list-container");
-  var div = document.createElement("div");
-  div.classList.add("card");
-  //Question
-  div.innerHTML += `
-  <p class="question-div">${question.value}</p>`;
-  //Answer
-  var displayAnswer = document.createElement("p");
-  displayAnswer.classList.add("answer-div", "hide");
-  displayAnswer.innerText = answer.value;
-
-  //Link to show/hide answer
-  var link = document.createElement("a");
-  link.setAttribute("href", "#");
-  link.setAttribute("class", "show-hide-btn");
-  link.innerHTML = "Show/Hide";
-  link.addEventListener("click", () => {
-    displayAnswer.classList.toggle("hide");
-  });
-
-  div.appendChild(link);
-  div.appendChild(displayAnswer);
-
-  //Edit button
-  let buttonsCon = document.createElement("div");
-  buttonsCon.classList.add("buttons-con");
-  var editButton = document.createElement("button");
-  editButton.setAttribute("class", "edit");
-  editButton.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
-  editButton.addEventListener("click", () => {
-    editBool = true;
-    modifyElement(editButton, true);
-    addQuestionCard.classList.remove("hide");
-  });
-  buttonsCon.appendChild(editButton);
-  disableButtons(false);
-
-  //Delete Button
-  var deleteButton = document.createElement("button");
-  deleteButton.setAttribute("class", "delete");
-  deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-  deleteButton.addEventListener("click", () => {
-    modifyElement(deleteButton);
-  });
-  buttonsCon.appendChild(deleteButton);
-
-  div.appendChild(buttonsCon);
-  listCard[0].appendChild(div);
-  hideQuestion();
-}
-//Modify Elements
-const modifyElement = (element, edit = false) => {
-  let parentDiv = element.parentElement.parentElement;
-  let parentQuestion = parentDiv.querySelector(".question-div").innerText;
-  if (edit) {
-    let parentAns = parentDiv.querySelector(".answer-div").innerText;
-    answer.value = parentAns;
-    question.value = parentQuestion;
-    disableButtons(true);
+// Submit Question
+cardButton.addEventListener("click", () => {
+  let tempQuestion = question.value.trim();
+  let tempAnswer = answer.value.trim();
+  if (!tempQuestion || !tempAnswer) {
+    errorMessage.classList.remove("hide");
+    return; // Prevent further actions if fields are empty
   }
-  parentDiv.remove();
-};
-//Disable edit and delete buttons
-const disableButtons = (value) => {
-  let editButtons = document.getElementsByClassName("edit");
-  Array.from(editButtons).forEach((element) => {
-    element.disabled = value;
+  if (editBool && editId !== null) {
+    // Update the existing card
+    const cardToUpdate = document.getElementById(editId);
+    cardToUpdate.querySelector(".question-div").textContent = tempQuestion;
+    cardToUpdate.querySelector(".answer-div").textContent = tempAnswer;
+  } else {
+    // Add a new card
+    viewlist(tempQuestion, tempAnswer);
+  }
+  resetForm();
+  toggleIntroText();
+});
+
+// Card Generate
+function viewlist(questionText, answerText) {
+  const listCard = document.querySelector(".card-list-container");
+  const div = document.createElement("div");
+  div.classList.add("card");
+  div.setAttribute('id', Date.now().toString()); // Unique ID for the card
+  div.innerHTML = `
+    <p class="question-div">${questionText}</p>
+    <a href="#" class="show-hide-btn">Show/Hide</a>
+    <p class="answer-div hide">${answerText}</p>
+    <div class="buttons-con">
+      <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+      <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+    </div>
+  `;
+
+  // Event listeners for the buttons
+  div.querySelector(".show-hide-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    div.querySelector(".answer-div").classList.toggle("hide");
   });
-};
+  div.querySelector(".edit").addEventListener("click", () => {
+    editBool = true; // Set editing state
+    editId = div.id; // Set the id for the edit
+    question.value = div.querySelector(".question-div").textContent;
+    answer.value = div.querySelector(".answer-div").textContent;
+    addQuestionCard.classList.remove("hide");
+    container.classList.add("hide");
+  });
+  div.querySelector(".delete").addEventListener("click", () => {
+    div.remove();
+    toggleIntroText();
+  });
+
+  listCard.appendChild(div);
+}
