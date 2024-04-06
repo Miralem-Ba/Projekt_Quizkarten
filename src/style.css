@@ -206,6 +206,13 @@ textarea:focus {
   border-radius: 10px;
   text-align: center;
 }
+.score-display {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: #0c4812ad;
+}
+
 @media screen and (max-width: 800px) {
   .card-list-container {
     grid-template-columns: 1fr 1fr;

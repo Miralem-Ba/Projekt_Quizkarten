@@ -7,9 +7,11 @@ const errorMessage = document.getElementById("error");
 const addQuestionBtn = document.getElementById("add-flashcard");
 const introText = document.getElementById("intro-text");
 const closeBtn = document.getElementById("close-btn");
+const scoreDisplay = document.getElementById("score-display");
 let editBool = false;
 let editId = null;
 let cardRatings = [];
+let totalScore = 0;
 
 // Function to reset form and hide/show appropriate elements
 function resetForm() {
@@ -93,7 +95,9 @@ function viewlist(questionText, answerText) {
   const rateButtons = div.querySelectorAll('.rate');
   rateButtons.forEach(btn => {
     btn.addEventListener('click', function() {
-      rateCard(cardId, parseInt(this.getAttribute('data-score')));
+      const score = parseInt(this.getAttribute('data-score'));
+      rateCard(cardId, score);
+      updateScoreDisplay();
     });
   });
 
@@ -130,6 +134,8 @@ function rateCard(cardId, score) {
 
   // Sort cards based on the rating
   sortCards();
+    totalScore += score;
+  updateScoreDisplay();
 }
 
 // Function to sort the cards
