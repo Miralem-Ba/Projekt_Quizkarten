@@ -212,7 +212,9 @@ textarea:focus {
   margin: 10px 0;
   color: #0c4812ad;
 }
-
+.rating-con{
+  color: #0c4812ad;
+}
 @media screen and (max-width: 800px) {
   .card-list-container {
     grid-template-columns: 1fr 1fr;
