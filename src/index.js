@@ -13,7 +13,10 @@ let editId = null;
 let cardRatings = [];
 let totalScore = 0;
 
-// Function to reset form and hide/show appropriate elements
+document.addEventListener('DOMContentLoaded', () => {
+  updateScoreDisplay();
+});
+
 function resetForm() {
   question.value = "";
   answer.value = "";
@@ -24,26 +27,26 @@ function resetForm() {
   editId = null;
 }
 
-// Toggle Intro Text based on presence of cards
 function toggleIntroText() {
   const flashcards = document.querySelectorAll('.card');
   introText.style.display = flashcards.length === 0 ? 'block' : 'none';
+  if (flashcards.length === 0) {
+    totalScore = 0;
+    updateScoreDisplay();
+  }
 }
 
-// Hide Create flashcard Card and reset form
 closeBtn.addEventListener("click", () => {
   resetForm();
   toggleIntroText();
 });
 
-// Add question when user clicks 'Add Flashcard' button
 addQuestionBtn.addEventListener("click", () => {
   addQuestionCard.classList.remove("hide");
   container.classList.add("hide");
   introText.style.display = 'none';
 });
 
-// Submit Question
 cardButton.addEventListener("click", () => {
   let tempQuestion = question.value.trim();
   let tempAnswer = answer.value.trim();
@@ -52,19 +55,16 @@ cardButton.addEventListener("click", () => {
     return;
   }
   if (editBool && editId !== null) {
-    // Update the existing card
     const cardToUpdate = document.getElementById(editId);
     cardToUpdate.querySelector(".question-div").textContent = tempQuestion;
     cardToUpdate.querySelector(".answer-div").textContent = tempAnswer;
   } else {
-    // Add a new card
     viewlist(tempQuestion, tempAnswer);
   }
   resetForm();
   toggleIntroText();
 });
 
-// Card Generate
 function viewlist(questionText, answerText) {
   const listCard = document.querySelector(".card-list-container");
   const div = document.createElement("div");
@@ -86,20 +86,23 @@ function viewlist(questionText, answerText) {
     </div>
   `;
 
-  // Event listeners for the buttons
   div.querySelector(".show-hide-btn").addEventListener("click", (e) => {
     e.preventDefault();
     div.querySelector(".answer-div").classList.toggle("hide");
   });
 
   const rateButtons = div.querySelectorAll('.rate');
-  rateButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const score = parseInt(this.getAttribute('data-score'));
-      rateCard(cardId, score);
-      updateScoreDisplay();
-    });
+rateButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    const score = parseInt(this.getAttribute('data-score'));
+    rateCard(cardId, score);
+    updateScoreDisplay();
   });
+});
+
+div.querySelector(".delete").addEventListener("click", () => {
+  removeCardAndScore(cardId);
+});
 
   div.querySelector(".edit").addEventListener("click", () => {
     editBool = true; 
@@ -111,60 +114,50 @@ function viewlist(questionText, answerText) {
   });
 
   div.querySelector(".delete").addEventListener("click", () => {
-    div.remove();
-    // Remove the card from the cardRatings array
-    const index = cardRatings.findIndex(card => card.id === cardId);
-    if (index !== -1) {
-      cardRatings.splice(index, 1);
-    }
-    toggleIntroText();
+    removeCardAndScore(cardId);
   });
 
   listCard.appendChild(div);
-  // Initially store the card with a rating of -1 to signify unrated
   cardRatings.push({ id: cardId, score: -1 });
 }
 
-// Function to rate a card and sort the cards
 function rateCard(cardId, score) {
   const cardIndex = cardRatings.findIndex(card => card.id === cardId);
   if (cardIndex !== -1) {
     if (cardRatings[cardIndex].score !== -1) {
-      // Ziehe die alte Punktzahl ab, wenn sie bereits bewertet wurde
       totalScore -= cardRatings[cardIndex].score;
     }
-    // Aktualisiere die Punktzahl der Karte
     cardRatings[cardIndex].score = score;
-    // Addiere die neue Punktzahl zur Gesamtpunktzahl
     totalScore += score;
-    // Aktualisiere die Punkteanzeige
     updateScoreDisplay();
   }
-
-  // Sortiere die Karten basierend auf ihrer Bewertung
-  sortCards();
 }
 
+function removeCardAndScore(cardId) {
+  const index = cardRatings.findIndex(card => card.id === cardId);
+  if (index !== -1) {
+    if (cardRatings[index].score !== -1) {
+      totalScore -= cardRatings[index].score;
+    }
+    cardRatings.splice(index, 1);
+    document.getElementById(cardId).remove();
+    updateScoreDisplay();
+  }
+  toggleIntroText();
+}
 
 function updateScoreDisplay() {
   scoreDisplay.textContent = 'Gesamtpunktzahl: ' + totalScore;
 }
 
-// Function to sort the cards
 function sortCards() {
   const listCard = document.querySelector(".card-list-container");
-  // Erstelle ein Array aus den DOM-Elementen (Flashcards)
-  let cardsArray = Array.from(listCard.children);
-
-  // Sortiere das Array basierend auf den gespeicherten Bewertungen
-  cardsArray.sort((a, b) => {
-    let scoreA = cardRatings.find(rating => rating.id === a.id).score;
-    let scoreB = cardRatings.find(rating => rating.id === b.id).score;
-    return scoreA - scoreB;
-  });
-
-  // Füge die sortierten Karten wieder in den Container ein
-  cardsArray.forEach(card => {
-    listCard.appendChild(card);
+  listCard.innerHTML = '';
+  cardRatings.sort((a, b) => a.score - b.score);
+  cardRatings.forEach(cardRating => {
+    const cardElement = document.getElementById(cardRating.id);
+    if (cardElement) {
+      listCard.appendChild(cardElement);
+    }
   });
 }
