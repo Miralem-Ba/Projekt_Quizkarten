@@ -129,26 +129,42 @@ function viewlist(questionText, answerText) {
 function rateCard(cardId, score) {
   const cardIndex = cardRatings.findIndex(card => card.id === cardId);
   if (cardIndex !== -1) {
+    if (cardRatings[cardIndex].score !== -1) {
+      // Ziehe die alte Punktzahl ab, wenn sie bereits bewertet wurde
+      totalScore -= cardRatings[cardIndex].score;
+    }
+    // Aktualisiere die Punktzahl der Karte
     cardRatings[cardIndex].score = score;
+    // Addiere die neue Punktzahl zur Gesamtpunktzahl
+    totalScore += score;
+    // Aktualisiere die Punkteanzeige
+    updateScoreDisplay();
   }
 
-  // Sort cards based on the rating
+  // Sortiere die Karten basierend auf ihrer Bewertung
   sortCards();
-    totalScore += score;
-  updateScoreDisplay();
+}
+
+
+function updateScoreDisplay() {
+  scoreDisplay.textContent = 'Gesamtpunktzahl: ' + totalScore;
 }
 
 // Function to sort the cards
 function sortCards() {
-  cardRatings.sort((a, b) => a.score - b.score);
-
   const listCard = document.querySelector(".card-list-container");
-  listCard.innerHTML = '';
+  // Erstelle ein Array aus den DOM-Elementen (Flashcards)
+  let cardsArray = Array.from(listCard.children);
 
-  cardRatings.forEach(cardRating => {
-    const cardElement = document.getElementById(cardRating.id);
-    if (cardElement) {
-      listCard.appendChild(cardElement);
-    }
+  // Sortiere das Array basierend auf den gespeicherten Bewertungen
+  cardsArray.sort((a, b) => {
+    let scoreA = cardRatings.find(rating => rating.id === a.id).score;
+    let scoreB = cardRatings.find(rating => rating.id === b.id).score;
+    return scoreA - scoreB;
+  });
+
+  // Füge die sortierten Karten wieder in den Container ein
+  cardsArray.forEach(card => {
+    listCard.appendChild(card);
   });
 }
